@@ -1,0 +1,47 @@
+# 正常的API调用
+ ⚡yangz ❯❯ python -u "e:\project\DataCleaningByLLM\detection.py"
+ChatCompletion(id='chatcmpl-8NhfqFaudoxPHbqwVRzU52flYfkg1', choices=[Choice(finish_reason='stop', index=0, message=ChatCompletionMessage(content='This is a test.', role='assistant', function_call=None, tool_calls=None))], created=1700660118, model='gpt-3.5-turbo-0613', object='chat.completion', system_fingerprint=None, usage=CompletionUsage(completion_tokens=5, prompt_tokens=12, total_tokens=17))
+
+# 账户停用
+openai.AuthenticationError: Error code: 401 - {'error': {'message': 'Your OpenAI account has been deactivated, please check your email for more information. If you feel this is an error, contact us through our help center at help.openai.com.', 'type': 'requests', 'param': 'fk-0BkiMcafO-5khhYsgXxLBHE********************', 'code': None}}
+
+# apiKey1 调用
+ ⚡yangz ❯❯ python -u "e:\project\DataCleaningByLLM\detection.py"
+ChatCompletion(id='chatcmpl-ncs8qihde1p7zhh9apIQ4s4kTrLnK', choices=[Choice(finish_reason='stop', index=0, message=ChatCompletionMessage(content='This is a test. How can I assist you with it?', role='assistant', function_call=None, tool_calls=None))], created=1700661177, model='gpt-3.5-turbo', object='chat.completion', system_fingerprint=None, usage=CompletionUsage(completion_tokens=0, prompt_tokens=0, total_tokens=0))
+
+# prompt1 输出tuple
+You need to help find out errors in given data. The first column of data is number, The second column of data is city, the third column of data is the conuntry which the first column belongs to.\n\
+Desired Format: tuple format with number,result. number is the first column of data, result has only two values: 0 or 1, when you find an error in a line,the result is 1 , otherwise the result is 0 .\n\
+Example Example output: (1,0) (2,0) (3,1)\n\
+Data:\n\
+1,New York,United States\n\
+2,London,United Kingdom\n\
+3,Paris,France\n\
+4,Tokyo,China\n\
+5,Sydney,Australia",
+ChatCompletion(id='chatcmpl-8NiMcomM4KxPcnr4DWKEs1OzgToxS', choices=[Choice(finish_reason='stop', index=0, message=ChatCompletionMessage(
+content='(1, 0) (2, 0) (3, 1) (4, 1) (5, 1)', role='assistant', function_call=None, tool_calls=None))], created=1700662770, model='gpt-3.5-turbo-0613', object='chat.completion', system_fingerprint=None, usage=CompletionUsage(completion_tokens=30, prompt_tokens=167, total_tokens=197))
+
+# prompt2 输出list
+You need to help find out errors in given data. The first column of data is number, The second column of data is city, the third column of data is the conuntry which the first column belongs to.\n\
+Desired Format: list format with the result, result has only two values: 0 or 1, when you find an error in a line,the result is 1 , otherwise the result is 0 .\n\
+Example output: [0,0,0,0,1]\n\
+Data:\n\
+1,New York,United States\n\
+2,London,United Kingdom\n\
+3,Paris,France\n\
+4,Tokyo,China\n\
+5,Sydney,Australia",
+ ⚡yangz ❯❯ python -u "e:\project\DataCleaningByLLM\detection.py"
+ChatCompletion(id='chatcmpl-8NiTU44z2eVbQxVtOQEyCaWlWZJjA', choices=[Choice(finish_reason='stop', index=0, message=ChatCompletionMessage(content='[0, 0, 0, 1, 0]\n\nExplanation:\n- The first line is correct, so the result is 0.\n- The second line is correct, so the result is 0.\n- The third line is correct, so the result is 0.\n- The fourth line has an error. Tokyo is in Japan, not China. So the result is 1.\n- The fifth line is correct, so the result is 0.', role='assistant', function_call=None, tool_calls=None))], created=1700663196, model='gpt-3.5-turbo-0613', object='chat.completion', system_fingerprint=None, usage=CompletionUsage(completion_tokens=96, prompt_tokens=154, total_tokens=250))
+[0, 0, 0, 1, 0]
+Explanation:
+- The first line is correct, so the result is 0.
+- The second line is correct, so the result is 0.
+- The third line is correct, so the result is 0.
+- The fourth line has an error. Tokyo is in Japan, not China. So the result is 1.
+- The fifth line is correct, so the result is 0.
+
+# prompt3 输出list + 严格限制输出
+Do not give any unnecessary imformation, return list only!
+[0, 0, 0, 1, 0]

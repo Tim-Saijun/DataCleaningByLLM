@@ -1,0 +1,5 @@
+# 将此文件配置后，拷贝并删去.template后缀即可使用
+config = {
+    'apikey': 'sk-xxx',
+    'basePath': 'https://api.openai.com/v1'
+}
